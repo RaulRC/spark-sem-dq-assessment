@@ -14,8 +14,6 @@ class DQAssessmentPlan(config: DQAssessmentConfiguration, sparkSession: SparkSes
 
   def execute(): Unit = {
     val graph = loadGraph(sparkSession, inputFile)
-    val s2 = getSubjectsWithProperty(graph, "http://dbpedia.org/ontology/deathPlace")
-    s2.collect().foreach(println(_))
     var result = getMeasurementSubgraph(graph.vertices, graph, config.properties)
     result.show(100, truncate = false)
   }
