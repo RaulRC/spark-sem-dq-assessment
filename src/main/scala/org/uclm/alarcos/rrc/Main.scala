@@ -6,7 +6,7 @@ import org.uclm.alarcos.rrc.config.DQAssessmentConfiguration
 import org.uclm.alarcos.rrc.utils.ParamsHelper
 import org.apache.spark.SparkConf
 import org.apache.spark.sql.SparkSession
-import org.uclm.alarcos.rrc.dataquality.completeness.{Interlinking, SchemaCompleteness}
+
 /**
   * Created by Raul Reguillo on 31/08/17.
   */
@@ -49,7 +49,7 @@ object Main {
       .getOrCreate()
 
 
-    logger.info("Loading class " + "SchemaCompleteness")
+    logger.info("Loading class " + "DQAssessmentPlan")
     launchStep(Class.forName(s"org.uclm.alarcos.rrc.dqassessment.DQAssessmentPlan")) (loadedConfig, spark, inputFile)
 
   }

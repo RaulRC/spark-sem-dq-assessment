@@ -3,14 +3,15 @@ package org.uclm.alarcos.rrc.config
 import com.typesafe.config.Config
 
 /**
-  * Created by Raul Reguillo on 30/08/17.
+  * Created by Raul Reguillo on 19/09/17.
   */
 class DQAssessmentConfiguration(env: String, config: Config) extends Serializable{
 
   val masterMode = config.getString(s"$env.masterMode")
   val hdfsOutputPath = config.getString(s"$env.hdfs.outputPath")
   val hdfsInputPath =  config.getString(s"$env.hdfs.inputPath")
-
+  val depth = config.getString(s"completeness.interlinking.depth").toInt
+  val properties = config.getString(s"completeness.schema.properties").split(",")
 
 }
 
