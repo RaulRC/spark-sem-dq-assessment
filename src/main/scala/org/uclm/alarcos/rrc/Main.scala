@@ -40,7 +40,7 @@ object Main {
     val loadedConfig = DQAssessmentConfiguration.apply(env, config)
 
     val sparkConf = new SparkConf()
-      .setAppName("Interlinking")
+      .setAppName("DQAssessmentPlan")
       .setMaster(loadedConfig.masterMode)
 
     val spark = SparkSession

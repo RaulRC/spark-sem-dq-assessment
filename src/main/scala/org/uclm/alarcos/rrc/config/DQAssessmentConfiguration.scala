@@ -12,7 +12,6 @@ class DQAssessmentConfiguration(env: String, config: Config) extends Serializabl
   val hdfsInputPath =  config.getString(s"$env.hdfs.inputPath")
   val depth = config.getString(s"completeness.interlinking.depth").toInt
   val properties = config.getString(s"completeness.schema.properties").split(",")
-
 }
 
 object DQAssessmentConfiguration {
