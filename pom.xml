@@ -97,11 +97,11 @@
             <artifactId>scopt_2.11</artifactId>
             <version>3.5.0</version>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>org.uclm.alarcos.rrc</groupId>
             <artifactId>sparkdq</artifactId>
-            <version>1.1</version>
-        </dependency>
+            <version>1.1.1</version>
+        </dependency>-->
 
         <!-- Testing -->
         <dependency>
@@ -230,12 +230,12 @@
                     <version>${spark.version}</version>
                     <scope>compile</scope>
                 </dependency>
-                <dependency>
+<!--                <dependency>
                     <groupId>org.uclm.alarcos.rrc</groupId>
                     <artifactId>sparkdq</artifactId>
-                    <version>1.1</version>
+                    <version>1.1.2</version>
                     <scope>compile</scope>
-                </dependency>
+                </dependency>-->
                 <dependency>
                     <groupId>org.apache.hadoop</groupId>
                     <artifactId>hadoop-client</artifactId>

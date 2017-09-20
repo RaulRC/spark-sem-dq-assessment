@@ -3,9 +3,10 @@ package org.uclm.alarcos.rrc
 import com.typesafe.config.{Config, ConfigFactory}
 import org.slf4j.LoggerFactory
 import org.uclm.alarcos.rrc.config.DQAssessmentConfiguration
-import org.uclm.alarcos.rrc.utils.ParamsHelper
+import org.uclm.alarcos.rrc.poc.utils.ParamsHelper
 import org.apache.spark.SparkConf
 import org.apache.spark.sql.SparkSession
+import org.uclm.alarcos.rrc.dqassessment.StepTrait
 
 /**
   * Created by Raul Reguillo on 31/08/17.
@@ -34,6 +35,7 @@ object Main {
       System.exit(0)
     }
 
+    val loadedClass = params.inputClass
     logger.info("Create Context for " + env)
     logger.info("Configuration file loaded..." + config.getConfig(env))
 
@@ -50,7 +52,7 @@ object Main {
 
 
     logger.info("Loading class " + "DQAssessmentPlan")
-    launchStep(Class.forName(s"org.uclm.alarcos.rrc.dqassessment.DQAssessmentPlan")) (loadedConfig, spark, inputFile)
+    launchStep(Class.forName(s"org.uclm.alarcos.rrc.dqassessment.$loadedClass")) (loadedConfig, spark, inputFile)
 
   }
 
@@ -65,7 +67,7 @@ object Main {
   def launchStep[T](clazz: java.lang.Class[T])(args: AnyRef*): T = {
     val constructor = clazz.getConstructors()(0)
     val instance = constructor.newInstance(args: _*).asInstanceOf[T]
-    instance.asInstanceOf[org.uclm.alarcos.rrc.dqassessment.DQAssessmentPlan].execute()
+    instance.asInstanceOf[StepTrait].execute()
     instance
   }
 
