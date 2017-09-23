@@ -34,6 +34,6 @@ class SchemaAssessment(config: DQAssessmentConfiguration, sparkSession: SparkSes
 
     sparkSession.sparkContext.hadoopConfiguration.set("fs.s3n.awsAccessKeyId", AWS_ACCESS)
     sparkSession.sparkContext.hadoopConfiguration.set("fs.s3n.awsSecretAccessKey", AWS_SECRET)
-    result.coalesce(1).write.json(config.hdfsOutputPath)
+    result.coalesce(1).write.json(config.hdfsOutputPath + System.currentTimeMillis() + "/")
   }
 }
