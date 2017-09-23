@@ -30,6 +30,11 @@
             <version>1.1.2-SNAPSHOT</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.databricks</groupId>
+            <artifactId>spark-avro_2.11</artifactId>
+            <version>3.2.0</version>
+        </dependency>
 
         <!-- Testing -->
         <dependency>

@@ -27,7 +27,8 @@ class SchemaAssessment(config: DQAssessmentConfiguration, sparkSession: SparkSes
     })
 
     var result = applyRuleSet(getMeasurementSubgraph(graph.vertices, graph, config.properties),
-    "measurement", "contextualAssessment", setLevels)
+    "measurement", "contextualAssessment", setLevels).limit(10)
     result.show(100, truncate = false)
+    result.write.save(config.hdfsOutputPath)
   }
 }
