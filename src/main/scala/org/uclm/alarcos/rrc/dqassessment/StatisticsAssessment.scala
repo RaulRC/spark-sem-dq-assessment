@@ -21,8 +21,8 @@ class StatisticsAssessment(config: DQAssessmentConfiguration, sparkSession: Spar
     println("Edges: " + numEdges)
     println("Vertices: " + numVertices)
     import processSparkSession.implicits._
-    val df = processSparkSession.sparkContext.parallelize(fValues).toDF(features: _*)
-    df.show()
+    //val df = processSparkSession.sparkContext.parallelize(fValues).toDF(features: _*)
+    //df.show()
 
     /*println(graph.inDegrees)
     println(graph.outDegrees)
