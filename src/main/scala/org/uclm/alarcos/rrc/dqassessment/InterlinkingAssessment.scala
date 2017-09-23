@@ -12,7 +12,7 @@ class InterlinkingAssessment(config: DQAssessmentConfiguration, sparkSession: Sp
   protected val processSparkSession: SparkSession = sparkSession
 
   def execute(): Unit = {
-    val graph = loadGraph(sparkSession, inputFile)
+        val graph = loadGraph(sparkSession, inputFile)
     var result = getMeasurementSubgraph(graph.vertices, graph, config.depth)
     result.show(100, truncate = false)
   }
