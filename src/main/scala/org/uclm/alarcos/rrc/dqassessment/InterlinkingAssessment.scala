@@ -30,8 +30,6 @@ class InterlinkingAssessment(config: DQAssessmentConfiguration, sparkSession: Sp
       else
         "GOOD"
     })
-    val AWS_ACCESS = System.getenv("AWS_ACCESS_KEY_ID")
-    val AWS_SECRET = System.getenv("AWS_SECRET_ACCESS_KEY")
 
     val loadGraphInit = System.currentTimeMillis()
     val graph = loadGraph(sparkSession, inputFile)
@@ -81,8 +79,6 @@ class InterlinkingAssessment(config: DQAssessmentConfiguration, sparkSession: Sp
     ): _*)
 
     statisticsDF.show(100, truncate=false)
-    sparkSession.sparkContext.hadoopConfiguration.set("fs.s3n.awsAccessKeyId", AWS_ACCESS)
-    sparkSession.sparkContext.hadoopConfiguration.set("fs.s3n.awsSecretAccessKey", AWS_SECRET)
     result.limit(100).coalesce(1).write.json(config.hdfsOutputPath + "InterlinkingAssessment/" + System.currentTimeMillis() + "/")
     statisticsDF.coalesce(1).write.json(config.hdfsOutputPath + "DQAssessmentStatistics/" + System.currentTimeMillis() + "/")
   }

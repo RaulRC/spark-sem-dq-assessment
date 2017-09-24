@@ -51,6 +51,10 @@ object Main {
       .config(sparkConf)
       .getOrCreate()
 
+    val AWS_ACCESS = System.getenv("AWS_ACCESS_KEY_ID")
+    val AWS_SECRET = System.getenv("AWS_SECRET_ACCESS_KEY")
+    spark.sparkContext.hadoopConfiguration.set("fs.s3n.awsAccessKeyId", AWS_ACCESS)
+    spark.sparkContext.hadoopConfiguration.set("fs.s3n.awsSecretAccessKey", AWS_SECRET)
 
     logger.info("Loading class " + "DQAssessmentPlan")
     launchStep(Class.forName(s"org.uclm.alarcos.rrc.dqassessment.$loadedClass")) (loadedConfig, spark, inputFile)
