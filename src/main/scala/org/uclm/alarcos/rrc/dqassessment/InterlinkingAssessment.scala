@@ -54,11 +54,13 @@ class InterlinkingAssessment(config: DQAssessmentConfiguration, sparkSession: Sp
     val avgProcessTimePerNode = processTime.toDouble/nNodes
     val avgProcessTimePerEdge = processTime.toDouble/nEdges
 
+    val totalTime = loadGraphTime + processTime
     val statisticsDF = sparkSession.sparkContext.parallelize(Seq((
       calculationDate,
       "InterlinkingAssessment",
       loadGraphTime,
       processTime,
+      totalTime,
       nNodes,
       nEdges,
       avgReadTimePerNode,
@@ -69,6 +71,7 @@ class InterlinkingAssessment(config: DQAssessmentConfiguration, sparkSession: Sp
       "metric",
       "loadGraphTime",
       "processTime",
+      "totalTime",
       "nNodes",
       "nEdges",
       "avgReadTimePerNode",
