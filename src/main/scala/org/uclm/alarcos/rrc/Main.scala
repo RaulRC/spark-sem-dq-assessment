@@ -28,7 +28,8 @@ object Main {
     }
     implicit val params = ParamsHelper.getParams(args)
     implicit val env = params.env
-    implicit val inputFile = params.inputFile
+    //implicit val inputFile = params.inputFile
+
 
     if (!environments.contains(env)) {
       logger.error(s"Environment $env not allowed. Valid environments are: $environments")
@@ -40,7 +41,7 @@ object Main {
     logger.info("Configuration file loaded..." + config.getConfig(env))
 
     val loadedConfig = DQAssessmentConfiguration.apply(env, config)
-
+    implicit val inputFile =loadedConfig.hdfsInputPath
     val sparkConf = new SparkConf()
       .setAppName("DQAssessmentPlan")
       .setMaster(loadedConfig.masterMode)

@@ -15,7 +15,6 @@ class SchemaAssessment(config: DQAssessmentConfiguration, sparkSession: SparkSes
   protected val processSparkSession: SparkSession = sparkSession
 
   def execute(): Unit = {
-    val x: SparkDQConfiguration = null
     val graph = loadGraph(sparkSession, inputFile)
     def setLevels = udf((value: Double)=>{
       if (value <=0.34)
@@ -27,13 +26,13 @@ class SchemaAssessment(config: DQAssessmentConfiguration, sparkSession: SparkSes
     })
 
     var result = applyRuleSet(getMeasurementSubgraph(graph.vertices, graph, config.properties),
-      "measurement", "contextualAssessment", setLevels).limit(10).toDF()
-    result.show(100, truncate = false)
+      "measurement", "contextualAssessment", setLevels).toDF()
+    result.show(10000, truncate = false)
     val AWS_ACCESS = System.getenv("AWS_ACCESS_KEY_ID")
     val AWS_SECRET = System.getenv("AWS_SECRET_ACCESS_KEY")
 
     sparkSession.sparkContext.hadoopConfiguration.set("fs.s3n.awsAccessKeyId", AWS_ACCESS)
     sparkSession.sparkContext.hadoopConfiguration.set("fs.s3n.awsSecretAccessKey", AWS_SECRET)
-    result.coalesce(1).write.json(config.hdfsOutputPath + System.currentTimeMillis() + "/")
+    result.coalesce(1).write.json(config.hdfsOutputPath + "SchemaAssessment/" + System.currentTimeMillis() + "/")
   }
 }
