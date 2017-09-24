@@ -56,6 +56,7 @@ class InterlinkingAssessment(config: DQAssessmentConfiguration, sparkSession: Sp
 
     val statisticsDF = sparkSession.sparkContext.parallelize(Seq((
       calculationDate,
+      "InterlinkingAssessment",
       loadGraphTime,
       processTime,
       nNodes,
@@ -65,6 +66,7 @@ class InterlinkingAssessment(config: DQAssessmentConfiguration, sparkSession: Sp
       avgProcessTimePerNode,
       avgProcessTimePerEdge))).toDF(Seq(
       "calculationDate",
+      "metric",
       "loadGraphTime",
       "processTime",
       "nNodes",
@@ -78,7 +80,7 @@ class InterlinkingAssessment(config: DQAssessmentConfiguration, sparkSession: Sp
     statisticsDF.show(100, truncate=false)
     sparkSession.sparkContext.hadoopConfiguration.set("fs.s3n.awsAccessKeyId", AWS_ACCESS)
     sparkSession.sparkContext.hadoopConfiguration.set("fs.s3n.awsSecretAccessKey", AWS_SECRET)
-    result.limit(1000).coalesce(1).write.json(config.hdfsOutputPath + "InterlinkingAssessment/" + System.currentTimeMillis() + "/")
+    result.limit(100).coalesce(1).write.json(config.hdfsOutputPath + "InterlinkingAssessment/" + System.currentTimeMillis() + "/")
     statisticsDF.coalesce(1).write.json(config.hdfsOutputPath + "DQAssessmentStatistics/" + System.currentTimeMillis() + "/")
   }
 }
