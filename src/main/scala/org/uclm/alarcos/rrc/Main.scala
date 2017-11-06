@@ -1,8 +1,10 @@
 package org.uclm.alarcos.rrc
 
+import java.io.File
+
 import com.typesafe.config.{Config, ConfigFactory}
 import org.slf4j.LoggerFactory
-import org.uclm.alarcos.rrc.config.DQAssessmentConfiguration
+import org.uclm.alarcos.rrc.config.{DQAssessmentConfiguration, DQParametersConfiguration}
 import org.uclm.alarcos.rrc.poc.utils.ParamsHelper
 import org.apache.spark.SparkConf
 import org.apache.spark.sql.SparkSession
@@ -28,8 +30,9 @@ object Main {
     }
     implicit val params = ParamsHelper.getParams(args)
     implicit val env = params.env
-    //implicit val inputFile = params.inputFile
+    implicit val configFile = params.inputFile
 
+    val paramConfig = DQParametersConfiguration.apply(ConfigFactory.parseFile(new File(configFile)))
 
     if (!environments.contains(env)) {
       logger.error(s"Environment $env not allowed. Valid environments are: $environments")
@@ -57,7 +60,7 @@ object Main {
     spark.sparkContext.hadoopConfiguration.set("fs.s3n.awsSecretAccessKey", AWS_SECRET)
 
     logger.info("Loading class " + "DQAssessmentPlan")
-    launchStep(Class.forName(s"org.uclm.alarcos.rrc.dqassessment.$loadedClass")) (loadedConfig, spark, inputFile)
+    launchStep(Class.forName(s"org.uclm.alarcos.rrc.dqassessment.$loadedClass")) (loadedConfig, paramConfig, spark, inputFile)
 
   }
 

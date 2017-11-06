@@ -1,7 +1,7 @@
 package org.uclm.alarcos.rrc.dqassessment
 
 import org.apache.spark.sql.SparkSession
-import org.uclm.alarcos.rrc.config.DQAssessmentConfiguration
+import org.uclm.alarcos.rrc.config.{DQAssessmentConfiguration, DQParametersConfiguration}
 import org.uclm.alarcos.rrc.dataquality.completeness.InterlinkingMeasurement
 import org.apache.spark.sql.functions._
 import org.uclm.alarcos.rrc.reasoning.Inference
@@ -12,7 +12,9 @@ import java.util.Calendar
   * Created by raulreguillo on 6/09/17.
   */
 
-class InterlinkingAssessment(config: DQAssessmentConfiguration, sparkSession: SparkSession, inputFile: String) extends StepTrait with InterlinkingMeasurement with Inference {
+class InterlinkingAssessment(config: DQAssessmentConfiguration,
+                             paramConfig: DQParametersConfiguration,
+                             sparkSession: SparkSession, inputFile: String) extends StepTrait with InterlinkingMeasurement with Inference {
   protected val processSparkSession: SparkSession = sparkSession
 
   def execute(): Unit = {
@@ -23,9 +25,9 @@ class InterlinkingAssessment(config: DQAssessmentConfiguration, sparkSession: Sp
     val calculationDate = dateFormat.format(today)
 
     def setLevels = udf((value: Double)=>{
-      if (value <=0.34)
+      if (value <= paramConfig.BAD)
         "BAD"
-      else if (value <= 0.67)
+      else if (value <= paramConfig.NORMAL)
         "NORMAL"
       else
         "GOOD"

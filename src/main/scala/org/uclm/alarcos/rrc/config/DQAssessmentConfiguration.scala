@@ -13,7 +13,18 @@ class DQAssessmentConfiguration(env: String, config: Config) extends Serializabl
   val depth = config.getString(s"completeness.interlinking.depth").toInt
   val properties = config.getString(s"completeness.schema.properties").split(",")
 }
+class DQParametersConfiguration(jobConfig: Config) extends Serializable{
+  val BAD = jobConfig.getDouble(s"BAD")
+  val NORMAL = jobConfig.getDouble(s"NORMAL")
+}
+object DQParametersConfiguration {
 
+  /**
+    * Returns the configuration for a specific environment
+    */
+  def apply(jobConfig: Config) =
+    new DQParametersConfiguration(jobConfig)
+}
 object DQAssessmentConfiguration {
 
   /**
